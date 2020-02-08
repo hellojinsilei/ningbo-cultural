@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>风物文化</title>
+    <link rel="stylesheet" href="css/boot.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="css/icons.css" rel="stylesheet" type="text/css">
+    <!--[if lt IE 8]><!-->
+    <link rel="stylesheet" href="ie7/ie7.css">
+    <!--<![endif]-->
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body data-spy="scroll" data-target=".navbar-fixed-top">
+<div th:insert="head :: nav"></div>
+
+    <div class="clear"></div>
+    <div id="page-content">
+        <section class="breadcrumb">
+            <div class="container">
+                <h2>风物文化</h2>
+                <ul>
+                    <li><a href="index.html">阿拉宁波</a> ></li>
+                    <li><a href="#">风物文化</a></li>
+                </ul>
+            </div>
+        </section>
+        <section class="blog-page">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div th:each="comment : ${pageInfo.list}">
+                            <div class="single-post">
+                                <div class="blog-img">
+                                    <a th:href="@{'/natural/'+${comment.commentId}}">
+                                        <img th:src="${comment.imgUrl}" class="img-responsive">
+                                    </a>
+                                </div>
+                                <h2 class="blog-title" th:text="${comment.title}"></h2>
+                                <div class="blog-meta">
+                                    <span th:text="${comment.createTime}"></span><a href="">(3) Comments</a>
+                                </div>
+                                <p th:if="${#strings.length(comment.content)>20}" th:text="${#strings.substring(comment.content,0,19)}+'......'">.</p>
+                                <p th:if="${#strings.length(comment.content)<=20}" th:text="${comment.content}">.</p>
+                                <hr />
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <ul class="pagination ins-page" th:each="num:${pageInfo.navigatepageNums}">
+                                <li><a href="natural" th:href="@{'/natural?pageNum=' + ${num}}" th:text="${num}"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="blog-post">
+                            <!-- Search -->
+                            <h2>搜索</h2>
+                            <div class="input-group search-text">
+                                <input id="naturalSearch" type="text" class="form-control search" placeholder="搜索风物文化的标题">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default btn-search" type="button" onclick="searchNatural()">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                              </span>
+                            </div>
+                            <!-- Categories -->
+                            <h2>分类</h2>
+                            <ul class="category-post">
+                                <li th:each="typeNum : ${typeNums}">
+                                    <a th:href="@{'/' + ${typeNum.typeCode}}">
+                                        <div class="inline-text">
+                                            <i class="glyphicon glyphicon-play blue-text"></i>
+                                            <h4 th:text="${typeNum.typeName}"></h4>
+                                            <div class="margin-left-auto blue-text">
+                                                <span th:text="${typeNum.num}"></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="clear"></div>
+<div th:insert="~{footer :: foot}"></div>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/boot.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-hover-dropdown/2.2.1/bootstrap-hover-dropdown.min.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="js/user.js"></script>
+<script type="text/javascript">
+    function searchNatural() {
+        const searchInput = document.getElementById('naturalSearch').value;
+        window.location.href = "/search?type=4&title="+searchInput
+    }
+</script>
+</body>
+
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>个人中心</title>
+    <link rel="shortcut icon" href="images/favicon.png" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="css/icons.css" rel="stylesheet" type="text/css">
+    <!--[if lt IE 8]><!-->
+    <link rel="stylesheet" href="ie7/ie7.css">
+    <!--<![endif]-->
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body data-spy="scroll" data-target=".navbar-fixed-top">
+    <div th:insert="head :: nav"></div>
+    <div class="clear"></div>
+    <div id="page-content">
+        <section class="breadcrumb">
+            <div class="container">
+                <div class="col-sm-6">
+                    <h2>个人中心</h2>
+                    <ul>
+                        <li><a href="index.html">阿拉宁波</a> ></li>
+                        <li><a href="#">个人中心</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-2">
+                    <a th:if="${user.authority==0}" href="/manager" class="btn-default">后台管理系统</a>
+                </div>
+                <div class="col-sm-2">
+                    <button type="button" class="btn-default" data-toggle="modal" data-target="#editModal">
+                        <span>修改个人资料</span>
+                    </button>
+                </div>
+                <div class="col-sm-2">
+                    <a href="/publish" class="btn-default">发表</a>
+                </div>
+            </div>
+            <!--  注册  -->
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="edit">
+                <div class="modal-dialog" style="z-index: 2041;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="editModalTitle">修改个人信息</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form id="editForm" onsubmit="return false">
+                                <div class="form-group">
+                                    <label for="emailEdit">修改邮箱</label>
+                                    <input type="email" name="email" class="form-control" id="emailEdit" th:value="${user.email}" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="passwordEdit">修改密码</label>
+                                    <input type="password" name="password" class="form-control" id="passwordEdit" th:value="${user.password}" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="userNameEdit">修改昵称</label>
+                                    <input type="text" name="userName" class="form-control" id="userNameEdit" th:value="${user.userName}" />
+                                </div>
+                                <button type="submit" class="btn btn-default" style="float: right;width: 60px;background-color: greenyellow;" onclick="edit()">修改</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="contact-us">
+            <div class="container">
+                <div class="row">
+                    <p>我点赞的帖子</p>
+                    <div class="col-sm-12">
+                        <div th:each="comment : ${pageInfo.list}">
+                            <div class="single-post">
+                                <a th:href="@{'/cultural/'+${comment.commentId}}">
+                                    <h3 class="blog-title" th:text="${comment.title}"></h3>
+                                </a>
+                            </div>
+                            <hr/>
+                        </div>
+                        <div class="text-center">
+                            <ul class="pagination ins-page" th:each="num:${pageInfo.navigatepageNums}">
+                                <li><a href="natural" th:href="@{'/profile?pageNum=' + ${num}}" th:text="${num}"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="clear"></div>
+    <div th:insert="~{footer :: foot}"></div>
+    <script src="js/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-hover-dropdown/2.2.1/bootstrap-hover-dropdown.min.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="js/user.js"></script>
+</body>
+
+</html>
